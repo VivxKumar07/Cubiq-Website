@@ -1,0 +1,1110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171717">
+<meta name="description" content="Cubiq Launcher - Your gateway to Minecraft Java Edition.">
+<title>Cubiq Launcher | Official Website</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --green: #3c8527;
+  --light-green: #52a535;
+  --lime: #7ed957;
+  --dark: #171717;
+  --white: #ffffff;
+  --gray: #eeeeee;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f4f4f4;
+  color: #202020;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* NAVBAR */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: 76px;
+  background: #171717;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 6%;
+  box-shadow: 0 3px 15px #0002;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 900;
+  font-size: 23px;
+  letter-spacing: -1px;
+}
+
+.logo {
+  width: 43px;
+  height: 43px;
+  background: #000;
+  border: 2px solid #3c8527;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  transform: none;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.brand span {
+  color: #70cf4f;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 27px;
+}
+
+.nav-links a {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .6px;
+  transition: color .2s;
+}
+
+.nav-links a:hover {
+  color: #82db5f;
+}
+
+.nav-download {
+  background: var(--green);
+  padding: 14px 20px;
+  border-bottom: 4px solid #24551a;
+  color: white;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  color: white;
+  border: 0;
+  font-size: 28px;
+}
+
+/* HERO */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 580px;
+  display: flex;
+  align-items: center;
+  background: #203b25;
+  color: white;
+}
+
+.hero-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, #101c13 0%, #101c13e8 42%, #101c1350 100%),
+    linear-gradient(0deg, #0c160d80, transparent 65%),
+    linear-gradient(160deg, #88b4b5 0%, #4d7858 44%, #314c32 45%, #203a26 100%);
+}
+
+.sun {
+  position: absolute;
+  top: 70px;
+  right: 18%;
+  width: 100px;
+  height: 100px;
+  background: #f5d98a;
+  box-shadow: 0 0 90px #ffe7a5;
+}
+
+.mountain {
+  position: absolute;
+  bottom: 0;
+  right: -3%;
+  width: 68%;
+  height: 75%;
+  background: #405d39;
+  clip-path: polygon(0 100%, 0 70%, 16% 49%, 28% 64%, 47% 20%, 58% 42%, 73% 10%, 100% 52%, 100% 100%);
+}
+
+.mountain.two {
+  right: 10%;
+  width: 65%;
+  height: 58%;
+  background: #263e2b;
+  opacity: .85;
+  clip-path: polygon(0 100%, 0 55%, 20% 25%, 39% 58%, 60% 10%, 75% 50%, 100% 35%, 100% 100%);
+}
+
+.land {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 28%;
+  background: repeating-linear-gradient(
+    90deg,
+    #294c28 0 60px,
+    #355c30 60px 120px
+  );
+  border-top: 18px solid #527d38;
+}
+
+.cube {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  background: #3d772e;
+  border: 5px solid #2c5726;
+  box-shadow: inset 10px 10px #ffffff12, 10px 10px #0002;
+}
+
+.cube.one {
+  right: 25%;
+  bottom: 25%;
+}
+
+.cube.two {
+  right: 13%;
+  bottom: 39%;
+  width: 85px;
+  height: 85px;
+  background: #795c3d;
+  border-color: #63472e;
+}
+
+.cube.three {
+  right: 43%;
+  bottom: 17%;
+  width: 48px;
+  height: 48px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 75px 6%;
+}
+
+.eyebrow {
+  color: #a1ec7b;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  margin-bottom: 22px;
+}
+
+.hero h1 {
+  max-width: 650px;
+  font-size: clamp(42px, 7vw, 78px);
+  font-weight: 900;
+  line-height: .98;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  text-shadow: 3px 4px #0005;
+}
+
+.hero h1 span {
+  color: #79d653;
+}
+
+.hero-description {
+  max-width: 510px;
+  margin-top: 25px;
+  font-size: 15px;
+  line-height: 1.9;
+  color: #e0e9df;
+}
+
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 32px;
+}
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 0 27px;
+  border: 0;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  transition: transform .2s, filter .2s;
+}
+
+.button:hover {
+  filter: brightness(1.12);
+  transform: translateY(-3px);
+}
+
+.button-green {
+  color: white;
+  background: var(--green);
+  border-bottom: 5px solid #24551a;
+}
+
+.button-white {
+  color: #222;
+  background: white;
+  border-bottom: 5px solid #c7c7c7;
+}
+
+.hero-note {
+  margin-top: 19px;
+  font-size: 11px;
+  color: #c9d8c8;
+}
+
+/* TICKER */
+
+.ticker {
+  background: var(--green);
+  color: white;
+  padding: 17px 15px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+}
+
+/* SECTIONS */
+
+.section {
+  padding: 90px 6%;
+}
+
+.section-inner {
+  max-width: 1150px;
+  margin: auto;
+}
+
+.section-label {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: clamp(29px, 4vw, 46px);
+  font-weight: 900;
+  letter-spacing: -1.6px;
+  line-height: 1.15;
+}
+
+.section-description {
+  color: #626262;
+  font-size: 14px;
+  line-height: 1.9;
+  max-width: 650px;
+  margin-top: 17px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 45px;
+}
+
+.feature {
+  padding: 30px 25px;
+  background: white;
+  border-bottom: 5px solid #d5d5d5;
+  transition: transform .25s, border-color .25s;
+}
+
+.feature:hover {
+  transform: translateY(-7px);
+  border-color: var(--green);
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  background: #e9f4e4;
+  color: var(--green);
+  font-size: 26px;
+  margin-bottom: 25px;
+}
+
+.feature h3 {
+  font-size: 16px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.feature p {
+  color: #656565;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+/* ABOUT */
+
+.about {
+  background: #e7e7e7;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 60px;
+}
+
+.pixel-art {
+  position: relative;
+  overflow: hidden;
+  min-height: 320px;
+  background: linear-gradient(#88b7ca 0 55%, #568a3f 55%);
+  border: 8px solid white;
+  box-shadow: 0 8px 25px #0001;
+}
+
+.pixel-sun {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  background: #f7e18a;
+  top: 35px;
+  right: 55px;
+}
+
+.pixel-mountain {
+  position: absolute;
+  inset: 25% 0 0;
+  background: #365b38;
+  clip-path: polygon(0 100%, 0 60%, 25% 20%, 43% 58%, 70% 0, 100% 48%, 100% 100%);
+}
+
+.pixel-ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 25%;
+  background: repeating-linear-gradient(
+    90deg,
+    #795b3a 0 35px,
+    #6d5033 35px 70px
+  );
+  border-top: 16px solid #4b9134;
+}
+
+.about-copy p {
+  color: #555;
+  font-size: 14px;
+  line-height: 1.9;
+  margin-top: 20px;
+}
+
+.about-copy .button {
+  margin-top: 25px;
+}
+
+/* DOWNLOAD */
+
+.download {
+  background: #18291a;
+  color: white;
+  text-align: center;
+}
+
+.download .section-label {
+  color: #9be77a;
+}
+
+.download .section-description {
+  color: #d0d9d0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.download-panel {
+  max-width: 690px;
+  margin: 40px auto 0;
+  padding: 35px;
+  background: #223825;
+  border: 1px solid #456c46;
+}
+
+.download-icon {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.download-logo {
+  width: 72px;
+  height: 72px;
+  background: #000;
+  border: 2px solid #3c8527;
+  border-radius: 16px;
+  object-fit: contain;
+  display: block;
+}
+
+.download-versions {
+  margin-top: 14px;
+}
+
+.download-versions a {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9be77a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color .2s;
+}
+
+.download-versions a:hover {
+  color: #c4f5af;
+}
+
+.download-panel h3 {
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.download-panel p {
+  color: #d0d9d0;
+  font-size: 12px;
+  line-height: 1.9;
+  margin: 14px auto 24px;
+}
+
+.download-panel .button {
+  width: 100%;
+  max-width: 340px;
+}
+
+.download-small {
+  font-size: 10px;
+  color: #b6c5b5;
+  margin-top: 18px;
+}
+
+/* FAQ */
+
+.faq-list {
+  max-width: 850px;
+  margin: 35px auto 0;
+}
+
+.faq-list details {
+  background: white;
+  border-bottom: 1px solid #ddd;
+  padding: 22px;
+}
+
+.faq-list summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.faq-list details p {
+  padding-top: 16px;
+  color: #666;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+/* FOOTER */
+
+footer {
+  background: #111;
+  color: white;
+  padding: 45px 6% 25px;
+}
+
+.footer-inner {
+  max-width: 1150px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.footer-description {
+  color: #aaa;
+  font-size: 11px;
+  line-height: 1.9;
+  max-width: 370px;
+  margin-top: 14px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.footer-links a:hover {
+  color: #82db5f;
+}
+
+.copyright {
+  max-width: 1150px;
+  margin: 35px auto 0;
+  padding-top: 22px;
+  border-top: 1px solid #333;
+  color: #888;
+  font-size: 10px;
+  line-height: 1.9;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 850px) {
+  .navbar {
+    padding: 0 4%;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 76px;
+    left: 0;
+    right: 0;
+    padding: 25px;
+    background: #171717;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    padding: 17px 5px;
+    border-bottom: 1px solid #333;
+  }
+
+  .nav-download {
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  .hero {
+    min-height: 560px;
+  }
+
+  .hero-art {
+    background:
+      linear-gradient(90deg, #101c13e8, #101c1370),
+      linear-gradient(160deg, #88b4b5, #314c32);
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .feature {
+    padding: 25px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .pixel-art {
+    min-height: 270px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand {
+    font-size: 19px;
+  }
+
+  .logo {
+    width: 37px;
+    height: 37px;
+  }
+
+  .hero-content {
+    padding: 65px 6%;
+  }
+
+  .hero h1 {
+    letter-spacing: -2px;
+  }
+
+  .hero-description {
+    font-size: 13px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-buttons .button {
+    width: 100%;
+  }
+
+  .section {
+    padding: 65px 6%;
+  }
+
+  .download-panel {
+    padding: 25px 18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<header class="navbar">
+  <a class="brand" href="#home">
+    <div class="logo">
+      <img src="logo.png" alt="Cubiq Launcher">
+    </div>
+    <div>CUBIQ <span>LAUNCHER</span></div>
+  </a>
+
+  <button class="menu-toggle" id="menuToggle"
+          aria-label="Toggle navigation"
+          aria-expanded="false">☰</button>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="#home">HOME</a>
+    <a href="#features">FEATURES</a>
+    <a href="#about">ABOUT</a>
+    <a href="#faq">FAQ</a>
+    <a class="nav-download" href="#download">DOWNLOAD</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+
+<section class="hero" id="home">
+  <div class="hero-art">
+    <div class="sun"></div>
+    <div class="mountain"></div>
+    <div class="mountain two"></div>
+    <div class="land"></div>
+    <div class="cube one"></div>
+    <div class="cube two"></div>
+    <div class="cube three"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</div>
+
+    <h1>YOUR GAME.<br>
+      YOUR WORLD.<br>
+      <span>CUBIQ.</span>
+    </h1>
+
+    <p class="hero-description">
+      Meet Cubiq Launcher — your gateway to your Minecraft Java
+      adventures. Manage your game profiles and get ready to
+      explore, build and create.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="https://github.com/VivxKumar07/Cubiq-Launcher/releases/latest"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="button button-green">
+        ⬇ DOWNLOAD CUBIQ
+      </a>
+
+      <a href="#features" class="button button-white">
+        EXPLORE FEATURES →
+      </a>
+    </div>
+
+    <div class="hero-note">
+      A community launcher project · Made for players
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  BUILD YOUR WORLD &nbsp; ✦ &nbsp;
+  EXPLORE YOUR WAY &nbsp; ✦ &nbsp;
+  WELCOME TO CUBIQ
+</div>
+
+<!-- FEATURES -->
+
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="section-label">WHY CUBIQ?</div>
+
+    <h2 class="section-title">
+      EVERYTHING YOU NEED<br>
+      TO START YOUR ADVENTURE.
+    </h2>
+
+    <p class="section-description">
+      A launcher experience designed around your Minecraft
+      journey. Get to your profiles and your favourite game
+      setups from one place.
+    </p>
+
+    <div class="features">
+      <article class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>PERFORMANCE</h3>
+        <p>
+          Organize your performance-focused profiles and
+          discover setups that suit your device.
+        </p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">▦</div>
+        <h3>GAME PROFILES</h3>
+        <p>
+          Keep your game versions and different modded
+          configurations organized in one place.
+        </p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">🌍</div>
+        <h3>YOUR ADVENTURE</h3>
+        <p>
+          Build, explore and enjoy the block-based worlds
+          you love with your preferred setup.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+
+<section class="section about" id="about">
+  <div class="section-inner about-grid">
+    <div class="pixel-art">
+      <div class="pixel-sun"></div>
+      <div class="pixel-mountain"></div>
+      <div class="pixel-ground"></div>
+    </div>
+
+    <div class="about-copy">
+      <div class="section-label">MEET YOUR LAUNCHER</div>
+
+      <h2 class="section-title">
+        ONE LAUNCHER.<br>
+        MANY POSSIBILITIES.
+      </h2>
+
+      <p>
+        Cubiq Launcher is built for players who want a
+        dedicated place for their Minecraft Java setups.
+        Whether you enjoy vanilla gameplay or compatible
+        modded profiles, your next adventure is waiting.
+      </p>
+
+      <p>
+        Download the launcher from the official link provided
+        on this website and follow the included setup
+        instructions.
+      </p>
+
+      <a href="#download" class="button button-green">
+        GET CUBIQ NOW →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD SECTION -->
+
+<section class="section download" id="download">
+  <div class="section-inner">
+    <div class="section-label">READY TO PLAY?</div>
+
+    <h2 class="section-title">
+      YOUR NEXT ADVENTURE<br>
+      STARTS WITH CUBIQ.
+    </h2>
+
+    <p class="section-description">
+      Get the Cubiq Launcher installer from your official
+      download source and follow the setup instructions.
+    </p>
+
+    <div class="download-panel">
+      <div class="download-icon">
+        <img src="logo.png" alt="Cubiq Launcher" class="download-logo">
+      </div>
+
+      <h3>CUBIQ LAUNCHER</h3>
+
+      <p>
+        Your launcher. Your setup. Your adventure.<br>
+        Click below to access the Cubiq Launcher download.
+      </p>
+
+      <!-- DOWNLOAD BUTTON -->
+      <a id="downloadButton"
+         href="https://github.com/VivxKumar07/Cubiq-Launcher/releases/latest"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="button button-green">
+        DOWNLOAD CUBIQ LAUNCHER
+      </a>
+
+      <div class="download-versions">
+        <a href="https://github.com/VivxKumar07/Cubiq-Launcher/releases" target="_blank" rel="noopener noreferrer">
+          View All Versions
+        </a>
+      </div>
+
+      <div class="download-small" id="downloadMessage">
+        Official Cubiq Launcher download
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+
+<section class="section" id="faq">
+  <div class="section-inner">
+    <div style="text-align:center">
+      <div class="section-label">GOT QUESTIONS?</div>
+      <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
+    </div>
+
+    <div class="faq-list">
+      <details>
+        <summary>What is Cubiq Launcher?</summary>
+        <p>
+          Cubiq Launcher is a launcher project intended to
+          help players access and organize their Minecraft
+          Java game setups.
+        </p>
+      </details>
+
+      <details>
+        <summary>Where can I download Cubiq Launcher?</summary>
+        <p>
+          Use the Download Cubiq Launcher button on this page.
+          It will open the download address configured by
+          the website owner.
+        </p>
+      </details>
+
+      <details>
+        <summary>Does Cubiq Launcher include Minecraft?</summary>
+        <p>
+          Cubiq Launcher is a separate project. Minecraft
+          Java Edition is a product of Mojang Studios.
+          A launcher download does not itself grant a
+          Minecraft game licence.
+        </p>
+      </details>
+
+      <details>
+        <summary>Which devices are supported?</summary>
+        <p>
+          Check the launcher developer's release notes for
+          supported operating systems, requirements and
+          installation instructions.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <a class="brand" href="#home">
+        <div class="logo">
+          <img src="logo.png" alt="Cubiq Launcher">
+        </div>
+        <div>CUBIQ <span>LAUNCHER</span></div>
+      </a>
+
+      <p class="footer-description">
+        A community launcher project for Minecraft players.
+        Explore responsibly and download from trusted sources.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <a href="#home">HOME</a>
+      <a href="#features">FEATURES</a>
+      <a href="#download">DOWNLOAD</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+
+  <div class="copyright">
+    © <span id="year"></span> Cubiq Launcher. All rights reserved.
+    <br>
+    Minecraft is a trademark of Mojang Studios and Microsoft.
+    This is an independent fan project and is not affiliated
+    with or endorsed by Mojang Studios or Microsoft.
+  </div>
+</footer>
+
+<script>
+/* ==========================================
+   CUBIQ LAUNCHER - WEBSITE CONFIGURATION
+   ========================================== */
+
+/*
+  STEP 1:
+  Replace the text below with your REAL download URL.
+
+  Examples:
+  "https://yourdomain.com/CubiqLauncher.apk"
+  "https://yourdomain.com/CubiqLauncher.exe"
+  "https://drive.google.com/your-share-link"
+
+  Use the actual URL for your file.
+*/
+
+const CUBIQ_DOWNLOAD_URL =
+  "https://github.com/VivxKumar07/Cubiq-Launcher/releases/latest";
+
+/* ==========================================
+   DOWNLOAD BUTTON SETUP
+   Do not edit this part.
+   ========================================== */
+
+const downloadButton = document.getElementById("downloadButton");
+const downloadMessage = document.getElementById("downloadMessage");
+
+if (
+  CUBIQ_DOWNLOAD_URL &&
+  CUBIQ_DOWNLOAD_URL.startsWith("https://") &&
+  !CUBIQ_DOWNLOAD_URL.includes("PASTE_YOUR")
+) {
+  downloadButton.href = CUBIQ_DOWNLOAD_URL;
+  downloadButton.target = "_blank";
+  downloadButton.rel = "noopener noreferrer";
+
+  downloadMessage.textContent = "Official Cubiq Launcher download";
+} else {
+  downloadButton.href = "#download";
+
+  downloadButton.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    alert(
+      "Bro! Add your download link first.\\n\\n" +
+      "Search for CUBIQ_DOWNLOAD_URL in the code and " +
+      "replace the placeholder with your actual URL."
+    );
+  });
+}
+
+/* MOBILE MENU */
+
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+menuToggle.addEventListener("click", function() {
+  const opened = navLinks.classList.toggle("open");
+
+  menuToggle.textContent = opened ? "✕" : "☰";
+  menuToggle.setAttribute("aria-expanded", String(opened));
+});
+
+navLinks.querySelectorAll("a").forEach(function(link) {
+  link.addEventListener("click", function() {
+    navLinks.classList.remove("open");
+    menuToggle.textContent = "☰";
+    menuToggle.setAttribute("aria-expanded", "false");
+  });
+});
+
+/* CURRENT YEAR */
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+</script>
+
+</body>
+</html>
