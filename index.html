@@ -1,0 +1,2339 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171717">
+<meta name="description" content="Cubiq Launcher - Your gateway to Minecraft Java Edition on Android. High performance, Fabric & Forge support, custom shaders and renderers.">
+<title>Cubiq Launcher | Minecraft Java Edition on Android</title>
+
+<!-- Favicon with rounded logo -->
+<link rel="icon" type="image/png" href="logo.png">
+
+<!-- Google Fonts: Montserrat -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script>
+// Prevent flash of wrong theme
+(function() {
+  try {
+    var saved = localStorage.getItem('cubiq_theme');
+    var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {}
+})();
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+
+:root, [data-theme="dark"] {
+  --green: #3c8527;
+  --light-green: #52a535;
+  --lime: #7ed957;
+  --dark: #171717;
+  --white: #ffffff;
+  --gray: #eeeeee;
+
+  --bg-body: #101418;
+  --bg-card: #181e25;
+  --bg-card-border: #242c37;
+  --bg-navbar: #171717;
+  --bg-alt: #141920;
+  --text-main: #f0f4f8;
+  --text-muted: #94a3b8;
+  --text-dark: #ffffff;
+  --border-line: #222b37;
+  --input-bg: #0f1318;
+  
+  --discord-bg: #5865F2;
+  --discord-border: #4752c4;
+  --github-bg: #2d3748;
+  --github-border: #4a5568;
+  
+  --btn-white-shadow: #26313f;
+  --btn-white-bg: #222a36;
+  --btn-white-text: #ffffff;
+}
+
+[data-theme="light"], .light-mode {
+  --green: #3c8527;
+  --light-green: #52a535;
+  --lime: #7ed957;
+  --dark: #171717;
+  --white: #ffffff;
+  --gray: #eeeeee;
+
+  --bg-body: #f4f4f4;
+  --bg-card: #ffffff;
+  --bg-card-border: #d5d5d5;
+  --bg-navbar: #171717;
+  --bg-alt: #e7e7e7;
+  --text-main: #202020;
+  --text-muted: #626262;
+  --text-dark: #202020;
+  --border-line: #dddddd;
+  --input-bg: #ffffff;
+  
+  --discord-bg: #5865F2;
+  --discord-border: #4752c4;
+  --github-bg: #171717;
+  --github-border: #000000;
+  
+  --btn-white-shadow: #c7c7c7;
+  --btn-white-bg: #ffffff;
+  --btn-white-text: #222222;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-body);
+  color: var(--text-main);
+  font-family: 'Montserrat', Arial, sans-serif;
+  overflow-x: hidden;
+  transition: background 0.2s, color 0.2s;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ========================================================
+   NAVBAR (SIMPLE & UNCLUTTERED, UNIFORM SPACING)
+   ======================================================== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 64px;
+  background: var(--bg-navbar);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 5%;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 900;
+  font-size: 21px;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  background: #000;
+  border: 2px solid var(--green);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.brand span {
+  color: #70cf4f;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.nav-links a {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .6px;
+  transition: color .2s;
+  color: #e2e8f0;
+}
+
+.nav-links a:hover {
+  color: #82db5f;
+}
+
+/* Nav Actions Group */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.btn-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 12px;
+  background: #252b33;
+  color: #fff;
+  border: 1px solid #364150;
+  border-bottom: 3px solid #1a1e24;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: transform 0.15s, filter 0.15s;
+}
+
+.btn-theme-toggle:hover {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+}
+
+.btn-nav-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 14px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: transform 0.15s, filter 0.15s;
+}
+
+.btn-nav-social svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+
+.btn-nav-discord {
+  background: var(--discord-bg);
+  border: 1px solid var(--discord-border);
+  border-bottom: 3px solid #3842a2;
+}
+
+.btn-nav-discord:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.btn-nav-github {
+  background: var(--github-bg);
+  border: 1px solid var(--github-border);
+  border-bottom: 3px solid #1a202c;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.btn-nav-github:hover {
+  background: #3b4758;
+  border-color: #718096;
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+}
+
+.nav-download {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  background: var(--green);
+  padding: 0 16px;
+  border-bottom: 4px solid #24551a;
+  color: white;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  transition: transform 0.15s, filter 0.15s;
+}
+
+.nav-download:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  color: white;
+  border: 0;
+  font-size: 28px;
+  padding: 4px;
+}
+
+/* ========================================================
+   HERO: FITS 100% PERFECTLY ON THE FIRST SCREEN (NO CUTOFFS!)
+   ======================================================== */
+.hero {
+  position: relative;
+  overflow: hidden;
+  height: calc(100vh - 64px);
+  min-height: 580px;
+  max-height: 780px;
+  display: flex;
+  align-items: center;
+  background: #203b25;
+  color: white;
+  padding: 15px 5%;
+  box-sizing: border-box;
+}
+
+/* Vibrant official Minecraft Java key art background (CLEAR & NOT DIMMED!) */
+.hero-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-image: url('assets/artwork/hero_artwork.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  filter: brightness(0.92) contrast(1.05) saturate(1.15);
+}
+
+/* Clean gentle overlay for text legibility without crushing artwork */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(90deg, rgba(16, 28, 19, 0.94) 0%, rgba(16, 28, 19, 0.82) 48%, rgba(16, 28, 19, 0.35) 100%),
+    linear-gradient(0deg, rgba(12, 22, 13, 0.5) 0%, transparent 50%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1280px;
+  margin: auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 36px;
+}
+
+.eyebrow {
+  color: #a1ec7b;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero h1 {
+  max-width: 650px;
+  font-size: clamp(32px, 4.2vw, 54px);
+  font-weight: 900;
+  line-height: .98;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+  text-shadow: 3px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 14px;
+}
+
+.hero h1 span {
+  color: #79d653;
+}
+
+.hero-description {
+  max-width: 520px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: #e0e9df;
+  margin-bottom: 20px;
+}
+
+/* ========================================================
+   HERO BUTTONS: HIERARCHY AS REQUESTED BY USER
+   Download Cubiq is biggest, Join Discord & View Source Code are smaller & match width
+   ======================================================== */
+.hero-cta-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 500px;
+  margin-bottom: 16px;
+}
+
+/* Primary Big Button */
+.button-primary-big {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 52px;
+  padding: 0 24px;
+  background: var(--green);
+  border-bottom: 5px solid #24551a;
+  box-shadow: 0 4px 14px rgba(60, 133, 39, 0.4);
+  color: white;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  transition: transform .15s, filter .15s;
+  user-select: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.button-primary-big:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+}
+
+.button-primary-big:active {
+  transform: translateY(2px);
+}
+
+/* Secondary Sub-Buttons row: Discord + View Source Code */
+.hero-cta-subrow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+.button-sub {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 14px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  transition: transform .15s, filter .15s;
+  user-select: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.button-sub svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.button-sub:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+}
+
+.button-sub:active {
+  transform: translateY(1px);
+}
+
+.button-sub-discord {
+  color: white;
+  background: var(--discord-bg);
+  border: 1px solid var(--discord-border);
+  border-bottom: 4px solid #3842a2;
+}
+
+.button-sub-source {
+  color: var(--btn-white-text);
+  background: var(--btn-white-bg);
+  border: 1px solid var(--border-line);
+  border-bottom: 4px solid var(--btn-white-shadow);
+}
+
+.hero-note {
+  font-size: 11px;
+  color: #c9d8c8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.hero-note span {
+  color: #a1ec7b;
+  font-weight: 700;
+}
+
+/* Hero Right: Clean Android Phone Mockup (Bigger, prominent & beautifully fitted) */
+.hero-mockup-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.hero-phone {
+  position: relative;
+  height: min(540px, calc(100vh - 120px));
+  width: auto;
+  aspect-ratio: 9 / 18.5;
+  background: #000;
+  border: 7px solid #1a222a;
+  border-radius: 30px;
+  box-shadow: 
+    0 18px 45px rgba(0, 0, 0, 0.65),
+    0 0 35px rgba(60, 133, 39, 0.35);
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.hero-phone:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 24px 55px rgba(0, 0, 0, 0.8),
+    0 0 50px rgba(112, 214, 71, 0.55);
+}
+
+.hero-phone-camera {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background: #000;
+  border: 1.5px solid #222;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.hero-phone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.phone-version-tag {
+  position: absolute;
+  top: 14px;
+  right: -10px;
+  background: #171717;
+  border: 2px solid var(--green);
+  color: white;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 6px 12px;
+  border-radius: 6px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.phone-version-tag span.dot {
+  width: 7px;
+  height: 7px;
+  background: #79d653;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px #79d653;
+}
+
+/* ========================================================
+   TICKER
+   ======================================================== */
+.ticker {
+  background: var(--green);
+  color: white;
+  padding: 16px 15px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ========================================================
+   SECTIONS GENERAL
+   ======================================================== */
+.section {
+  padding: 85px 5%;
+  box-sizing: border-box;
+}
+
+.section-inner {
+  max-width: 1150px;
+  margin: auto;
+}
+
+.section-label {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: var(--text-dark);
+}
+
+.section-description {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.85;
+  max-width: 650px;
+  margin-top: 16px;
+}
+
+/* ========================================================
+   SCREENSHOTS SHOWCASE (WITH NATURAL LANDSCAPE IN-GAME FRAME)
+   ======================================================== */
+.screenshots-section {
+  background: var(--bg-body);
+}
+
+.screenshots-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 32px 0 24px;
+}
+
+.tab-btn {
+  height: 40px;
+  padding: 0 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-line);
+  border-bottom: 3px solid var(--border-line);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tab-btn.active, .tab-btn:hover {
+  background: var(--green);
+  border-color: var(--green);
+  border-bottom: 3px solid #24551a;
+  color: white;
+}
+
+.screenshots-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.screenshot-card {
+  background: var(--bg-card);
+  border-bottom: 5px solid var(--bg-card-border);
+  border: 1px solid var(--border-line);
+  overflow: hidden;
+  transition: transform .25s, border-color .25s;
+  display: flex;
+  flex-direction: column;
+}
+
+.screenshot-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--green);
+  border-bottom: 5px solid var(--green);
+}
+
+/* Regular Portrait Screenshot Frame */
+.screenshot-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 18;
+  background: #000;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.screenshot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.screenshot-card:hover .screenshot-img {
+  transform: scale(1.04);
+}
+
+/* LANDSCAPE SCREENSHOT CARD (Spans 2 columns, natural 16:9 / 19:9 ratio) */
+.screenshot-card-landscape {
+  grid-column: span 2;
+}
+
+.screenshot-frame-landscape {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 18 / 9;
+  background: #000;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.screenshot-frame-landscape .screenshot-img {
+  object-position: center center;
+}
+
+.screenshot-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.screenshot-card:hover .screenshot-overlay {
+  opacity: 1;
+}
+
+.screenshot-overlay .view-tag {
+  background: var(--green);
+  color: white;
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 3px solid #24551a;
+}
+
+.screenshot-info {
+  padding: 16px 14px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.screenshot-badge {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.screenshot-info h3 {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.screenshot-info p {
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* ========================================================
+   LIGHTBOX MODAL
+   ======================================================== */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.lightbox-modal.active {
+  display: flex;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border: 4px solid #fff;
+  border-radius: 4px;
+}
+
+.lightbox-caption {
+  color: #e2e8f0;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -45px;
+  right: 0;
+  color: #fff;
+  background: #222;
+  border: 1px solid #444;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* ========================================================
+   OFFLINE PROFILE MANAGER (USER'S 2ND IMAGE REQUIREMENT)
+   ======================================================== */
+.profile-section {
+  background: var(--bg-alt);
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 36px;
+}
+
+.profile-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-line);
+  border-bottom: 5px solid var(--bg-card-border);
+  padding: 30px 26px;
+}
+
+.profile-card h3 {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.profile-sub {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.profile-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.profile-input {
+  width: 100%;
+  height: 48px;
+  background: var(--input-bg);
+  border: 2px solid var(--border-line);
+  color: var(--text-dark);
+  padding: 0 14px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.profile-input:focus {
+  border-color: var(--green);
+}
+
+.avatar-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.avatar-option {
+  width: 52px;
+  height: 52px;
+  background: var(--input-bg);
+  border: 2px solid var(--border-line);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.avatar-option img {
+  width: 36px;
+  height: 36px;
+  image-rendering: pixelated;
+}
+
+.avatar-option:hover {
+  border-color: var(--green);
+  transform: translateY(-2px);
+}
+
+.avatar-option.selected {
+  border-color: var(--green);
+  background: rgba(60, 133, 39, 0.2);
+  border-width: 3px;
+}
+
+.saved-profiles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.saved-profile-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--input-bg);
+  border: 1px solid var(--border-line);
+  transition: border-color 0.15s;
+}
+
+.saved-profile-item.active {
+  border-color: var(--green);
+  background: rgba(60, 133, 39, 0.12);
+}
+
+.saved-profile-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.saved-profile-user img {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  border: 1px solid var(--green);
+}
+
+.saved-profile-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.saved-profile-badge {
+  font-size: 10px;
+  color: var(--green);
+  font-weight: 700;
+}
+
+.saved-profile-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-profile-act {
+  padding: 6px 12px;
+  font-size: 10px;
+  font-weight: 900;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.btn-profile-select {
+  background: var(--green);
+  color: white;
+  border-bottom: 2px solid #24551a;
+}
+
+.btn-profile-del {
+  background: #991b1b;
+  color: white;
+  border-bottom: 2px solid #7f1d1d;
+}
+
+.profile-empty {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-style: italic;
+  padding: 20px 0;
+}
+
+/* ========================================================
+   FEATURES
+   ======================================================== */
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 45px;
+}
+
+.feature {
+  padding: 30px 25px;
+  background: var(--bg-card);
+  border-bottom: 5px solid var(--bg-card-border);
+  border: 1px solid var(--border-line);
+  transition: transform .25s, border-color .25s;
+}
+
+.feature:hover {
+  transform: translateY(-7px);
+  border-color: var(--green);
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  background: rgba(60, 133, 39, 0.15);
+  color: var(--green);
+  font-size: 26px;
+  margin-bottom: 22px;
+}
+
+.feature h3 {
+  font-size: 16px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  color: var(--text-dark);
+}
+
+.feature p {
+  color: var(--text-muted);
+  font-size: 12.5px;
+  line-height: 1.85;
+}
+
+/* ========================================================
+   ABOUT (WITH OFFICIAL MINECRAFT JAVA ARTWORK)
+   ======================================================== */
+.about {
+  background: var(--bg-alt);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 60px;
+}
+
+.about-visual {
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  background: #000;
+  border: 6px solid var(--bg-card);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.about-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(23, 23, 23, 0.92);
+  border: 1px solid var(--green);
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+
+.about-copy p {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.9;
+  margin-top: 20px;
+}
+
+.about-copy .button-primary-big {
+  margin-top: 28px;
+  max-width: 280px;
+}
+
+/* ========================================================
+   DOWNLOAD SECTION (WITH LOGO & DYNAMIC GITHUB RELEASE)
+   ======================================================== */
+.download {
+  background: #18291a;
+  color: white;
+  text-align: center;
+}
+
+.download .section-label {
+  color: #9be77a;
+}
+
+.download .section-title {
+  color: #ffffff;
+}
+
+.download .section-description {
+  color: #d0d9d0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.download-panel {
+  max-width: 690px;
+  margin: 40px auto 0;
+  padding: 40px 35px;
+  background: #223825;
+  border: 2px solid #456c46;
+}
+
+.download-logo-box {
+  width: 72px;
+  height: 72px;
+  background: #000;
+  border: 3px solid var(--green);
+  border-radius: 14px;
+  margin: 0 auto 20px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.download-logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.download-panel h3 {
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.download-panel p {
+  color: #d0d9d0;
+  font-size: 13px;
+  line-height: 1.85;
+  margin: 14px auto 26px;
+}
+
+.download-panel .button-primary-big {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.download-small {
+  font-size: 11px;
+  color: #b6c5b5;
+  margin-top: 20px;
+}
+
+.download-small a {
+  color: #79d653;
+  text-decoration: underline;
+}
+
+/* ========================================================
+   FAQ
+   ======================================================== */
+.faq-list {
+  max-width: 850px;
+  margin: 35px auto 0;
+}
+
+.faq-list details {
+  background: var(--bg-card);
+  border-bottom: 2px solid var(--border-line);
+  padding: 22px;
+  margin-bottom: 8px;
+}
+
+.faq-list summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+.faq-list details p {
+  padding-top: 16px;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+/* ========================================================
+   FOOTER
+   ======================================================== */
+footer {
+  background: #111;
+  color: white;
+  padding: 55px 5% 30px;
+}
+
+.footer-inner {
+  max-width: 1150px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.footer-description {
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.9;
+  max-width: 380px;
+  margin-top: 14px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.footer-links a:hover {
+  color: #82db5f;
+}
+
+.copyright {
+  max-width: 1150px;
+  margin: 35px auto 0;
+  padding-top: 22px;
+  border-top: 1px solid #333;
+  color: #888;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+/* Toast popup */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #171717;
+  color: white;
+  border: 2px solid var(--green);
+  padding: 12px 20px;
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  z-index: 3000;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.25s ease;
+  pointer-events: none;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ========================================================
+   RESPONSIVE DESIGN
+   ======================================================== */
+@media (max-width: 1100px) {
+  .screenshots-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .screenshot-card-landscape {
+    grid-column: span 2;
+  }
+  .hero {
+    height: auto;
+    min-height: 600px;
+    max-height: none;
+    padding: 40px 5%;
+  }
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .hero-mockup-wrap {
+    order: -1;
+  }
+  .hero-phone {
+    height: 380px;
+  }
+}
+
+@media (max-width: 850px) {
+  .navbar {
+    padding: 0 4%;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    padding: 25px;
+    background: #171717;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    padding: 16px 5px;
+    border-bottom: 1px solid #333;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .about-grid, .profile-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+}
+
+@media (max-width: 580px) {
+  .screenshots-grid {
+    grid-template-columns: 1fr;
+  }
+  .screenshot-card-landscape {
+    grid-column: span 1;
+  }
+  .brand {
+    font-size: 17px;
+  }
+  .logo {
+    width: 34px;
+    height: 34px;
+  }
+  .btn-theme-toggle span.theme-text {
+    display: none;
+  }
+  .hero-cta-subrow {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<header class="navbar">
+  <a class="brand" href="#home">
+    <div class="logo">
+      <img src="logo.png" alt="Cubiq Launcher Logo">
+    </div>
+    <div>CUBIQ <span>LAUNCHER</span></div>
+  </a>
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="#home">HOME</a>
+    <a href="#screenshots">SCREENSHOTS</a>
+    <a href="#profile">PROFILES</a>
+    <a href="#features">FEATURES</a>
+    <a href="#about">ABOUT</a>
+    <a href="#download">DOWNLOAD</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+
+  <div class="nav-actions">
+    <!-- Theme Toggle Switcher -->
+    <button class="btn-theme-toggle" id="themeToggle" type="button" title="Switch Light / Dark Theme">
+      <span id="themeIcon">☀️</span>
+      <span class="theme-text" id="themeLabel">Light</span>
+    </button>
+
+    <!-- Discord Button -->
+    <a href="https://discord.gg/MhFXwbpyrc" target="_blank" rel="noopener noreferrer" class="btn-nav-social btn-nav-discord" title="Join Official Discord">
+      <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+      <span>Discord</span>
+    </a>
+
+    <!-- GitHub Button -->
+    <a href="https://github.com/VivxKumar07" target="_blank" rel="noopener noreferrer" class="btn-nav-social btn-nav-github" title="GitHub Profile">
+      <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      <span>GitHub</span>
+    </a>
+
+    <!-- Top Download Button -->
+    <a class="nav-download btn-download-link" href="https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.0.0/Cubiq-1.0.0-arm64-v8a.apk">DOWNLOAD</a>
+  </div>
+</header>
+
+<!-- HERO SECTION: FITS 100% ON SCREEN 1 -->
+<section class="hero" id="home">
+  <!-- Authentic Minecraft key art (Bright, clear, not dimmed) -->
+  <div class="hero-art"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="eyebrow">✦ YOUR NEXT ADVENTURE STARTS HERE</div>
+
+      <h1>YOUR GAME.<br>
+        YOUR WORLD.<br>
+        <span>CUBIQ.</span>
+      </h1>
+
+      <p class="hero-description">
+        Meet Cubiq Launcher — your high-performance gateway to Minecraft Java Edition on Android. Engineered for smooth frame rates, custom renderer wrappers, and full Fabric & Forge mod compatibility.
+      </p>
+
+      <!-- Button hierarchy as requested -->
+      <div class="hero-cta-cluster">
+        <!-- Big Primary Download Button -->
+        <a href="https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.0.0/Cubiq-1.0.0-arm64-v8a.apk" class="button-primary-big btn-download-link" id="heroDownloadBtn">
+          ⬇ DOWNLOAD CUBIQ (<span class="dynamic-version-tag">v1.0.0</span>)
+        </a>
+
+        <!-- Sub-row: Join Discord + View Source Code side by side -->
+        <div class="hero-cta-subrow">
+          <a href="https://discord.gg/MhFXwbpyrc" target="_blank" rel="noopener noreferrer" class="button-sub button-sub-discord">
+            <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            <span>Join Discord</span>
+          </a>
+
+          <a href="https://github.com/VivxKumar07/Cubiq-Launcher" target="_blank" rel="noopener noreferrer" class="button-sub button-sub-source">
+            <span>&lt;/&gt;</span>
+            <span>View Source Code</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-note">
+        <span>✦ ARM64-v8a Architecture</span> &nbsp;·&nbsp; 
+        <span>Fabric & Forge Ready</span> &nbsp;·&nbsp; 
+        <span>Community Open-Source</span>
+      </div>
+    </div>
+
+    <!-- Phone mockup (Fitted 100% inside screen 1 without cutoff) -->
+    <div class="hero-mockup-wrap">
+      <div class="phone-version-tag" id="phoneVersionBadge">
+        <span class="dot"></span> <span class="dynamic-version-tag">v1.0.0</span> Active Version
+      </div>
+
+      <div class="hero-phone" onclick="openLightbox('assets/screenshots/home_play.jpg', 'Cubiq Launcher on Android - Version Selector & Play Screen')">
+        <div class="hero-phone-camera"></div>
+        <img src="assets/screenshots/home_play.jpg" alt="Cubiq Launcher Android Play Screen">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  BUILD YOUR WORLD &nbsp; ✦ &nbsp;
+  EXPLORE YOUR WAY &nbsp; ✦ &nbsp;
+  MINECRAFT JAVA ON ANDROID &nbsp; ✦ &nbsp;
+  WELCOME TO CUBIQ
+</div>
+
+<!-- REAL SCREENSHOTS SHOWCASE -->
+<section class="section screenshots-section" id="screenshots">
+  <div class="section-inner">
+    <div class="section-label">REAL LAUNCHER SHOWCASE</div>
+
+    <h2 class="section-title">
+      EXPLORE CUBIQ IN ACTION
+    </h2>
+
+    <p class="section-description">
+      Authentic, unedited Android screenshots straight from active gameplay and launcher navigation.
+    </p>
+
+    <!-- Category filter buttons -->
+    <div class="screenshots-tabs">
+      <button class="tab-btn active" data-filter="all">All Screens (7)</button>
+      <button class="tab-btn" data-filter="launcher">Launcher UI</button>
+      <button class="tab-btn" data-filter="mods">Mods & Renderers</button>
+      <button class="tab-btn" data-filter="profiles">Profiles & Wardrobe</button>
+      <button class="tab-btn" data-filter="ingame">In-Game Controls</button>
+    </div>
+
+    <div class="screenshots-grid">
+      <!-- 1: Home Play Screen -->
+      <article class="screenshot-card" data-category="launcher">
+        <div class="screenshot-frame" onclick="openLightbox('assets/screenshots/home_play.jpg', 'Home & Play Dashboard - Quick Profile Switching and Version Launcher')">
+          <img src="assets/screenshots/home_play.jpg" alt="Home and Play Dashboard" class="screenshot-img" loading="lazy">
+          <div class="screenshot-overlay"><span class="view-tag">🔍 View Screen</span></div>
+        </div>
+        <div class="screenshot-info">
+          <span class="screenshot-badge">HOME / DASHBOARD</span>
+          <h3>Play Screen & Version Hub</h3>
+          <p>Quickly launch releases or snapshots with real-time active profile selection.</p>
+        </div>
+      </article>
+
+      <!-- 2: News Feed -->
+      <article class="screenshot-card" data-category="launcher">
+        <div class="screenshot-frame" onclick="openLightbox('assets/screenshots/news.jpg', 'Official News Feed - Vanilla Bundles & Game Drops')">
+          <img src="assets/screenshots/news.jpg" alt="Launcher News Feed" class="screenshot-img" loading="lazy">
+          <div class="screenshot-overlay"><span class="view-tag">🔍 View Screen</span></div>
+        </div>
+        <div class="screenshot-info">
+          <span class="screenshot-badge">NEWS & DROPS</span>
+          <h3>Live Mojang Game Feed</h3>
+          <p>Stay updated with Bundles of Bravery, new game drops, and launcher patch notes.</p>
+        </div>
+      </article>
+
+      <!-- 3: Mods & Content Hub -->
+      <article class="screenshot-card" data-category="mods">
+        <div class="screenshot-frame" onclick="openLightbox('assets/screenshots/mods_hub.jpg', 'Mods & Content Hub - Browse Modpacks, Shaders and Texture Packs')">
+          <img src="assets/screenshots/mods_hub.jpg" alt="Mods Hub" class="screenshot-img" loading="lazy">
+          <div class="screenshot-overlay"><span class="view-tag">🔍 View Screen</span></div>
+        </div>
+        <div class="screenshot-info">
+          <span class="screenshot-badge">MODS & SHADERS</span>
+          <h3>Modpacks & Content Hub</h3>
+          <p>Search and install mods, shaders, resource packs, and worlds directly.</p>
+        </div>
+      </article>
+
+      <!-- 4: Profile Settings & Renderers -->
+      <article class="screenshot-card" data-category="mods">
+        <div class="screenshot-frame" onclick="openLightbox('assets/screenshots/profile_settings.jpg', 'Profile Settings - Krypton Wrapper, Kopper Zink, GL4ES and Java 17/21 JRE')">
+          <img src="assets/screenshots/profile_settings.jpg" alt="Profile Settings" class="screenshot-img" loading="lazy">
+          <div class="screenshot-overlay"><span class="view-tag">🔍 View Screen</span></div>
+        </div>
+        <div class="screenshot-info">
+          <span class="screenshot-badge">ENGINE & GRAPHICS</span>
+          <h3>Renderers & Java Runtimes</h3>
+          <p>Select Krypton Wrapper, Kopper Zink Vulkan, or GL4ES with custom RAM sliders.</p>
+        </div>
+      </article>
+
+      <!-- 5: Skins & Wardrobe -->
+      <article class="screenshot-card" data-category="profiles">
+        <div class="screenshot-frame" onclick="openLightbox('assets/screenshots/skins_wardrobe.jpg', 'Skins & Wardrobe - 3D Skin Rotator, Classic / Slim models & Custom PNG skins')">
+          <img src="assets/screenshots/skins_wardrobe.jpg" alt="Skins and 3D Wardrobe" class="screenshot-img" loading="lazy">
+          <div class="screenshot-overlay"><span class="view-tag">🔍 View Screen</span></div>
+        </div>
+        <div class="screenshot-info">
+          <span class="screenshot-badge">SKINS & 3D</span>
+          <h3>3D Wardrobe Studio</h3>
+          <p>Full 360° interactive 3D skin preview with Classic 4px, Slim 3px, and custom PNG imports.</p>
+        </div>
+      </article>
+
+      <!-- 6: Mobile Touch HUD Controls (IN NATURAL LANDSCAPE FRAME) -->
+      <article class="screenshot-card screenshot-card-landscape" data-category="ingame">
+        <div class="screenshot-frame screenshot-frame-landscape" onclick="openLightbox('assets/screenshots/ingame_touch_controls.jpg', 'Mobile Touch HUD Controls - In-game tactile D-pad, Mine, Attack, Jump, F3 Debug Overlay and Tab in Landscape Mode')">
+          <img src="assets/screenshots/ingame_touch_controls.jpg" alt="Mobile Touch HUD Controls Landscape" class="screenshot-img" loading="lazy">
+          <div class="screenshot-overlay"><span class="view-tag">🔍 View Landscape Screen</span></div>
+        </div>
+        <div class="screenshot-info">
+          <span class="screenshot-badge">TOUCH CONTROLS · LANDSCAPE IN-GAME</span>
+          <h3>Mobile In-Game HUD Controls</h3>
+          <p>Full-screen landscape touch HUD featuring responsive D-pad, jump, mine, attack, inventory, F3 debug overlay, and customizable on-screen button layouts.</p>
+        </div>
+      </article>
+
+      <!-- 7: Patch Notes -->
+      <article class="screenshot-card" data-category="launcher">
+        <div class="screenshot-frame" onclick="openLightbox('assets/screenshots/patch_notes.jpg', 'Patch Notes - Complete historical changelog of Minecraft Java Editions')">
+          <img src="assets/screenshots/patch_notes.jpg" alt="Minecraft Patch Notes" class="screenshot-img" loading="lazy">
+          <div class="screenshot-overlay"><span class="view-tag">🔍 View Screen</span></div>
+        </div>
+        <div class="screenshot-info">
+          <span class="screenshot-badge">CHANGELOGS</span>
+          <h3>Full Patch Notes</h3>
+          <p>Browse official changelogs, bug fixes, block updates, and release logs across all milestones.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX MODAL -->
+<div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox(event)">
+  <div class="lightbox-content">
+    <button class="lightbox-close" onclick="closeLightbox(event)">✕ CLOSE</button>
+    <img id="lightboxImg" src="" alt="Screenshot preview" class="lightbox-img">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<!-- OFFLINE PROFILE MANAGER (IMAGE 2 REQUIREMENT) -->
+<section class="section profile-section" id="profile">
+  <div class="section-inner">
+    <div class="section-label">PERSONALIZE YOUR EXPERIENCE</div>
+    <h2 class="section-title">YOUR PROFILE</h2>
+    <p class="section-description">
+      Create an offline profile for this website. Your profiles are saved securely in your browser.
+    </p>
+
+    <div class="profile-grid">
+      <!-- Left: Create Profile -->
+      <div class="profile-card">
+        <h3>Create a profile</h3>
+        <p class="profile-sub">Choose a username and an avatar to get started.</p>
+
+        <label class="profile-label" for="profileUsernameInput">USERNAME</label>
+        <input type="text" id="profileUsernameInput" class="profile-input" placeholder="e.g. CubiqPlayer" maxlength="20">
+
+        <label class="profile-label">CHOOSE AN AVATAR</label>
+        <div class="avatar-selector" id="avatarSelector">
+          <div class="avatar-option selected" data-avatar="steve" title="Steve">
+            <img src="assets/avatars/steve.png" alt="Steve Avatar">
+          </div>
+          <div class="avatar-option" data-avatar="pig" title="Pig">
+            <img src="assets/avatars/pig.png" alt="Pig Avatar">
+          </div>
+          <div class="avatar-option" data-avatar="creeper" title="Creeper">
+            <img src="assets/avatars/creeper.png" alt="Creeper Avatar">
+          </div>
+          <div class="avatar-option" data-avatar="enderman" title="Enderman">
+            <img src="assets/avatars/enderman.png" alt="Enderman Avatar">
+          </div>
+          <div class="avatar-option" data-avatar="alex" title="Alex">
+            <img src="assets/avatars/alex.png" alt="Alex Avatar">
+          </div>
+        </div>
+
+        <button id="createProfileBtn" class="button-primary-big" style="max-width: 240px; height: 46px;">
+          CREATE PROFILE +
+        </button>
+      </div>
+
+      <!-- Right: Saved Profiles -->
+      <div class="profile-card">
+        <h3>Saved profiles</h3>
+        <p class="profile-sub">Choose which offline profile to use on this website.</p>
+
+        <div class="saved-profiles-list" id="savedProfilesList">
+          <div class="profile-empty">No profiles yet. Create your first profile!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="section-label">WHY CUBIQ?</div>
+
+    <h2 class="section-title">
+      EVERYTHING YOU NEED<br>
+      TO START YOUR ADVENTURE.
+    </h2>
+
+    <p class="section-description">
+      A launcher experience designed around your Minecraft journey. Get to your profiles, mods, and favorite game setups from one dedicated place.
+    </p>
+
+    <div class="features">
+      <article class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>PERFORMANCE RENDERERS</h3>
+        <p>
+          Switch between Krypton Wrapper (GLES3), lightweight GL4ES for budget devices, or Kopper Zink Vulkan for modern chipsets.
+        </p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">▦</div>
+        <h3>MOD LOADER SUPPORT</h3>
+        <p>
+          Run Fabric & Forge ecosystem mods like Sodium, Lithium, and Iris shaders smoothly on 64-bit Android architecture.
+        </p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">🌍</div>
+        <h3>CUSTOM TOUCH CONTROLS</h3>
+        <p>
+          Full virtual mobile HUD with customizable D-pad, inventory shortcuts, F3 debug overlay, and physical gamepad support.
+        </p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">👤</div>
+        <h3>ACCOUNT FLEXIBILITY</h3>
+        <p>
+          Seamlessly switch between official Microsoft logins for multiplayer and offline player profiles for singleplayer worlds.
+        </p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">👕</div>
+        <h3>3D WARDROBE</h3>
+        <p>
+          Real-time 360° interactive 3D model viewer supporting Classic 4px, Slim 3px, custom PNG skin imports, and capes.
+        </p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">📦</div>
+        <h3>INTEGRATED MOD HUB</h3>
+        <p>
+          Discover, search, and auto-install community modpacks, shader presets, and high-definition resource packs directly.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about" id="about">
+  <div class="section-inner about-grid">
+    <div class="about-visual">
+      <img src="assets/artwork/about_artwork.jpg" alt="Minecraft Java Edition Artwork">
+      <div class="about-badge">✦ JAVA EDITION REIMAGINED FOR ANDROID</div>
+    </div>
+
+    <div class="about-copy">
+      <div class="section-label">MEET YOUR LAUNCHER</div>
+
+      <h2 class="section-title">
+        ONE LAUNCHER.<br>
+        MANY POSSIBILITIES.
+      </h2>
+
+      <p>
+        Cubiq Launcher is built for players who want a dedicated place for their Minecraft Java setups on mobile. Whether you enjoy vanilla survival or compatible modded profiles, your next adventure is waiting.
+      </p>
+
+      <p>
+        Download the launcher from the official link provided on this website and follow the setup instructions.
+      </p>
+
+      <a href="#download" class="button-primary-big">
+        GET CUBIQ NOW →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD SECTION (WITH LOGO & DYNAMIC GITHUB RELEASE) -->
+<section class="section download" id="download">
+  <div class="section-inner">
+    <div class="section-label">READY TO PLAY?</div>
+
+    <h2 class="section-title">
+      YOUR NEXT ADVENTURE<br>
+      STARTS WITH CUBIQ.
+    </h2>
+
+    <p class="section-description">
+      Get the official Cubiq Launcher APK installer for Android and jump into your worlds.
+    </p>
+
+    <div class="download-panel">
+      <div class="download-logo-box">
+        <img src="logo.png" alt="Cubiq Launcher Logo">
+      </div>
+
+      <h3 id="downloadPanelHeading">CUBIQ LAUNCHER <span class="dynamic-version-tag">v1.0.0</span></h3>
+
+      <p>
+        Your launcher. Your setup. Your adventure.<br>
+        Click below to download the latest APK build for Android (ARM64-v8a).
+      </p>
+
+      <!-- DYNAMIC DOWNLOAD LINK -->
+      <a id="downloadButton"
+         href="https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.0.0/Cubiq-1.0.0-arm64-v8a.apk"
+         class="button-primary-big btn-download-link">
+        DOWNLOAD CUBIQ LAUNCHER
+      </a>
+
+      <div class="download-small" id="downloadMessage">
+        File: <span class="dynamic-apk-name">Cubiq-1.0.0-arm64-v8a.apk</span> · Target: Android 8.0+ (ARM64-v8a)<br>
+        <a href="https://github.com/VivxKumar07/Cubiq-Launcher/releases" target="_blank" rel="noopener noreferrer">View all releases on GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="section-inner">
+    <div style="text-align:center">
+      <div class="section-label">GOT QUESTIONS?</div>
+      <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
+    </div>
+
+    <div class="faq-list">
+      <details open>
+        <summary>What is Cubiq Launcher?</summary>
+        <p>
+          Cubiq Launcher is an Android launcher engineered to run authentic Minecraft Java Edition on mobile devices with high-performance graphics wrappers (Krypton and Kopper Zink) and custom virtual controls.
+        </p>
+      </details>
+
+      <details>
+        <summary>Where can I download Cubiq Launcher?</summary>
+        <p>
+          Use the Download button on this page. All buttons link directly to the latest stable APK release from the official GitHub repository.
+        </p>
+      </details>
+
+      <details>
+        <summary>Does Cubiq Launcher include Minecraft?</summary>
+        <p>
+          Cubiq Launcher is a separate launcher project. Minecraft Java Edition is a product of Mojang Studios. To play online multiplayer, an official Minecraft account is required.
+        </p>
+      </details>
+
+      <details>
+        <summary>Which Android devices are supported?</summary>
+        <p>
+          Cubiq is optimized for Android 8.0 and above with 64-bit ARM processors (ARM64-v8a). Devices with Vulkan 1.2+ support can also utilize the Kopper Zink backend.
+        </p>
+      </details>
+
+      <details>
+        <summary>Can I install Fabric mods and shaders?</summary>
+        <p>
+          Yes! Cubiq features built-in mod loader setups for Fabric and Forge. You can easily install optimization mods such as Sodium, Lithium, and Iris shaders.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <a class="brand" href="#home">
+        <div class="logo">
+          <img src="logo.png" alt="Cubiq Logo">
+        </div>
+        <div>CUBIQ <span>LAUNCHER</span></div>
+      </a>
+
+      <p class="footer-description">
+        A community launcher project for Minecraft Java players on Android.
+        Explore responsibly and download from official sources.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <a href="#home">HOME</a>
+      <a href="#screenshots">SCREENSHOTS</a>
+      <a href="#profile">PROFILES</a>
+      <a href="#features">FEATURES</a>
+      <a href="#download">DOWNLOAD</a>
+      <a href="https://discord.gg/MhFXwbpyrc" target="_blank" rel="noopener noreferrer">DISCORD</a>
+      <a href="https://github.com/VivxKumar07" target="_blank" rel="noopener noreferrer">GITHUB</a>
+    </div>
+  </div>
+
+  <div class="copyright">
+    © <span id="year"></span> Cubiq Launcher. All rights reserved.<br>
+    Minecraft is a trademark of Mojang Studios and Microsoft.
+    This is an independent community project and is not affiliated with Mojang Studios or Microsoft.
+  </div>
+</footer>
+
+<!-- Toast message -->
+<div class="toast" id="mcToast">Profile Updated</div>
+
+<script>
+/* ========================================================
+   1. MINECRAFT CLICK SOUND & AUDIO ENGINE (INSTANT & UNIVERSAL)
+   ======================================================== */
+const CLICK_SOUND_DATA = "data:audio/mp3;base64,SUQzBAAAAAABAFRYWFgAAAASAAADbWFqb3JfYnJhbmQAZGFzaABUWFhYAAAAEQAAA21pbm9yX3ZlcnNpb24AMABUWFhYAAAAHAAAA2NvbXBhdGlibGVfYnJhbmRzAGlzbzZtcDQxAFRTU0UAAAAPAAADTGF2ZjU3LjgzLjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAiAAA4UgALCxISEhkZGSEhISgoKDAwMDc3Nz8/P0ZGRk1NTVVVVVxcXGRkZGtra3Nzc3p6eoGBiYmJkJCQmJiYn5+fpqamrq6utbW1vb29xMTEzMzM09PT2tra4uLi6enp8fHx+Pj4//8AAAAATGF2YzU3LjEwAAAAAAAAAAAAAAAAJAaRAAAAAAAAOFKi4aOAAAAAAAAAAAAAAAAAAAAAAP/7kGQAD/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV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VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+
+let audioCtx = null;
+let clickBuffer = null;
+
+function getAudioContext() {
+  if (!audioCtx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) {
+      audioCtx = new AudioContextClass();
+      fetch(CLICK_SOUND_DATA)
+        .then(function(r) { return r.arrayBuffer(); })
+        .then(function(buf) { return audioCtx.decodeAudioData(buf); })
+        .then(function(decoded) { clickBuffer = decoded; })
+        .catch(function() {});
+    }
+  }
+  return audioCtx;
+}
+
+const fallbackClickAudio = new Audio(CLICK_SOUND_DATA);
+fallbackClickAudio.preload = 'auto';
+
+function playMinecraftClick() {
+  const ctx = getAudioContext();
+  if (ctx && ctx.state === 'suspended') {
+    ctx.resume();
+  }
+
+  if (ctx && clickBuffer) {
+    try {
+      const source = ctx.createBufferSource();
+      source.buffer = clickBuffer;
+      const gain = ctx.createGain();
+      gain.gain.value = 0.8;
+      source.connect(gain);
+      gain.connect(ctx.destination);
+      source.start(0);
+      return;
+    } catch(e) {}
+  }
+
+  try {
+    const sound = fallbackClickAudio.cloneNode();
+    sound.volume = 0.75;
+    sound.play().catch(function() {});
+  } catch(e) {}
+}
+
+// Play touch/click sound on any interactive element across the entire website
+document.addEventListener('pointerdown', function(e) {
+  const el = e.target.closest('button, a, summary, input, select, .tab-btn, .screenshot-frame, .avatar-option, .saved-profile-item, .nav-profile-pill, .brand, [onclick]');
+  if (el) {
+    playMinecraftClick();
+  }
+});
+
+/* ========================================================
+   2. DUAL THEME ENGINE (DARK & LIGHT)
+   ======================================================== */
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+const themeLabel = document.getElementById('themeLabel');
+
+function getTheme() {
+  try {
+    const saved = localStorage.getItem('cubiq_theme');
+    if (saved) return saved;
+  } catch(e) {}
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  
+  if (theme === 'light') {
+    document.documentElement.classList.add('light-mode');
+    document.body.classList.add('light-mode');
+    if (themeIcon) themeIcon.textContent = '🌙';
+    if (themeLabel) themeLabel.textContent = 'Dark';
+    if (themeToggle) themeToggle.title = 'Switch to Dark Mode';
+  } else {
+    document.documentElement.classList.remove('light-mode');
+    document.body.classList.remove('light-mode');
+    if (themeIcon) themeIcon.textContent = '☀️';
+    if (themeLabel) themeLabel.textContent = 'Light';
+    if (themeToggle) themeToggle.title = 'Switch to Light Mode';
+  }
+
+  try {
+    localStorage.setItem('cubiq_theme', theme);
+  } catch(e) {}
+}
+
+// Apply theme on initial load
+applyTheme(getTheme());
+
+if (themeToggle) {
+  themeToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const target = current === 'dark' ? 'light' : 'dark';
+    applyTheme(target);
+    showToast('Switched to ' + target.toUpperCase() + ' mode');
+  });
+}
+
+/* ========================================================
+   3. DYNAMIC GITHUB RELEASE VERSION & APK AUTO-SYNC
+   ======================================================== */
+const DEFAULT_VERSION = "v1.0.0";
+const DEFAULT_APK_URL = "https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.0.0/Cubiq-1.0.0-arm64-v8a.apk";
+
+async function syncWithLatestGitHubRelease() {
+  try {
+    const res = await fetch("https://api.github.com/repos/VivxKumar07/Cubiq-Launcher/releases/latest", {
+      headers: { "Accept": "application/vnd.github.v3+json" }
+    });
+
+    if (!res.ok) {
+      console.warn("[Cubiq] GitHub API returned status:", res.status);
+      return;
+    }
+
+    const release = await res.json();
+    const tagName = release.tag_name || DEFAULT_VERSION;
+    const cleanVersion = tagName.startsWith('v') ? tagName : ('v' + tagName);
+    const numericVersion = cleanVersion.replace(/^v/, '');
+
+    let downloadUrl = DEFAULT_APK_URL;
+    let apkName = `Cubiq-${numericVersion}-arm64-v8a.apk`;
+
+    if (release.assets && release.assets.length > 0) {
+      const arm64Asset = release.assets.find(a => a.name.toLowerCase().includes('arm64') && a.name.endsWith('.apk'));
+      const anyApkAsset = release.assets.find(a => a.name.endsWith('.apk'));
+      const chosenAsset = arm64Asset || anyApkAsset;
+
+      if (chosenAsset) {
+        downloadUrl = chosenAsset.browser_download_url;
+        apkName = chosenAsset.name;
+      }
+    } else {
+      downloadUrl = `https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/${cleanVersion}/Cubiq-${numericVersion}-arm64-v8a.apk`;
+    }
+
+    const phoneBadge = document.getElementById("phoneVersionBadge");
+    if (phoneBadge) {
+      phoneBadge.innerHTML = `<span class="dot"></span> <span class="dynamic-version-tag">${cleanVersion}</span> Active Version`;
+    }
+
+    document.querySelectorAll(".btn-download-link").forEach(function(btn) {
+      btn.href = downloadUrl;
+      btn.setAttribute("target", "_blank");
+      btn.setAttribute("rel", "noopener noreferrer");
+    });
+
+    document.querySelectorAll(".dynamic-version-tag").forEach(function(el) {
+      el.textContent = cleanVersion;
+    });
+
+    document.querySelectorAll(".dynamic-apk-name").forEach(function(el) {
+      el.textContent = apkName;
+    });
+
+    const heroBtn = document.getElementById("heroDownloadBtn");
+    if (heroBtn) {
+      heroBtn.innerHTML = `⬇ DOWNLOAD CUBIQ (<span class="dynamic-version-tag">${cleanVersion}</span>)`;
+    }
+
+    const dlHeading = document.getElementById("downloadPanelHeading");
+    if (dlHeading) {
+      dlHeading.innerHTML = `CUBIQ LAUNCHER <span class="dynamic-version-tag">${cleanVersion}</span>`;
+    }
+
+    console.log(`[Cubiq] Successfully synced with GitHub Release: ${cleanVersion} -> ${downloadUrl}`);
+  } catch(e) {
+    console.warn("[Cubiq] GitHub sync offline or fallback:", e);
+  }
+}
+
+syncWithLatestGitHubRelease();
+
+/* ========================================================
+   4. MOBILE MENU
+   ======================================================== */
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+if (menuToggle && navLinks) {
+  menuToggle.addEventListener("click", function() {
+    const opened = navLinks.classList.toggle("open");
+    menuToggle.textContent = opened ? "✕" : "☰";
+    menuToggle.setAttribute("aria-expanded", String(opened));
+  });
+
+  navLinks.querySelectorAll("a").forEach(function(link) {
+    link.addEventListener("click", function() {
+      navLinks.classList.remove("open");
+      menuToggle.textContent = "☰";
+      menuToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
+/* ========================================================
+   5. SCREENSHOTS FILTERING TABS
+   ======================================================== */
+const tabButtons = document.querySelectorAll(".tab-btn");
+const screenshotCards = document.querySelectorAll(".screenshot-card");
+
+tabButtons.forEach(function(btn) {
+  btn.addEventListener("click", function() {
+    tabButtons.forEach(function(b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+
+    const filter = btn.dataset.filter;
+    screenshotCards.forEach(function(card) {
+      if (filter === "all" || card.dataset.category === filter) {
+        card.style.display = "flex";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
+});
+
+/* ========================================================
+   6. LIGHTBOX MODAL
+   ======================================================== */
+const lightboxModal = document.getElementById("lightboxModal");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxCaption = document.getElementById("lightboxCaption");
+
+function openLightbox(src, caption) {
+  lightboxImg.src = src;
+  lightboxCaption.textContent = caption;
+  lightboxModal.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox(e) {
+  if (e.target === lightboxModal || e.target.classList.contains("lightbox-close")) {
+    lightboxModal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+}
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape" && lightboxModal.classList.contains("active")) {
+    lightboxModal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+});
+
+/* ========================================================
+   7. TOAST NOTIFICATION
+   ======================================================== */
+function showToast(msg) {
+  const toast = document.getElementById("mcToast");
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(function() {
+    toast.classList.remove("show");
+  }, 2400);
+}
+
+/* ========================================================
+   8. OFFLINE PROFILE MANAGER (LOGIC FROM IMAGE 2)
+   ======================================================== */
+const PROFILES_STORAGE_KEY = 'cubiq_saved_profiles';
+const ACTIVE_PROFILE_KEY = 'cubiq_active_profile_id';
+
+let selectedAvatar = 'steve';
+
+function getSavedProfiles() {
+  try {
+    const raw = localStorage.getItem(PROFILES_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) {
+    return [];
+  }
+}
+
+function saveProfiles(profiles) {
+  try {
+    localStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(profiles));
+  } catch(e) {}
+}
+
+function getActiveProfileId() {
+  try {
+    return localStorage.getItem(ACTIVE_PROFILE_KEY);
+  } catch(e) {
+    return null;
+  }
+}
+
+function setActiveProfileId(id) {
+  try {
+    localStorage.setItem(ACTIVE_PROFILE_KEY, id);
+  } catch(e) {}
+  renderProfiles();
+}
+
+function renderProfiles() {
+  const list = document.getElementById('savedProfilesList');
+  if (!list) return;
+
+  const profiles = getSavedProfiles();
+  const activeId = getActiveProfileId();
+
+  if (profiles.length === 0) {
+    list.innerHTML = '<div class="profile-empty">No profiles yet. Create your first profile!</div>';
+    return;
+  }
+
+  list.innerHTML = profiles.map(function(p) {
+    const isActive = p.id === activeId;
+    return `
+      <div class="saved-profile-item ${isActive ? 'active' : ''}">
+        <div class="saved-profile-user">
+          <img src="assets/avatars/${p.avatar}.png" alt="${escapeHtml(p.username)}">
+          <div>
+            <div class="saved-profile-name">${escapeHtml(p.username)}</div>
+            <div class="saved-profile-badge">${isActive ? '● ACTIVE PROFILE' : '(Offline)'}</div>
+          </div>
+        </div>
+        <div class="saved-profile-actions">
+          ${!isActive ? `<button class="btn-profile-act btn-profile-select" onclick="setActiveProfileId('${p.id}')">SELECT</button>` : ''}
+          <button class="btn-profile-act btn-profile-del" onclick="deleteProfile('${p.id}')">DELETE</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function initProfiles() {
+  const avatarOptions = document.querySelectorAll('.avatar-option');
+  avatarOptions.forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      avatarOptions.forEach(function(o) { o.classList.remove('selected'); });
+      opt.classList.add('selected');
+      selectedAvatar = opt.dataset.avatar;
+    });
+  });
+
+  const createBtn = document.getElementById('createProfileBtn');
+  const usernameInput = document.getElementById('profileUsernameInput');
+
+  if (createBtn && usernameInput) {
+    createBtn.addEventListener('click', function() {
+      const name = usernameInput.value.trim();
+      if (!name) {
+        showToast('Please enter a username!');
+        usernameInput.focus();
+        return;
+      }
+
+      const newProfile = {
+        id: 'profile-' + Date.now(),
+        username: name,
+        avatar: selectedAvatar,
+        type: 'Offline',
+        createdAt: Date.now()
+      };
+
+      const profiles = getSavedProfiles();
+      profiles.push(newProfile);
+      saveProfiles(profiles);
+      setActiveProfileId(newProfile.id);
+
+      usernameInput.value = '';
+      showToast('Profile "' + name + '" created!');
+    });
+  }
+
+  renderProfiles();
+}
+
+window.deleteProfile = function(id) {
+  let profiles = getSavedProfiles();
+  profiles = profiles.filter(function(p) { return p.id !== id; });
+  saveProfiles(profiles);
+
+  if (getActiveProfileId() === id) {
+    if (profiles.length > 0) {
+      setActiveProfileId(profiles[0].id);
+    } else {
+      try { localStorage.removeItem(ACTIVE_PROFILE_KEY); } catch(e) {}
+      renderProfiles();
+    }
+  } else {
+    renderProfiles();
+  }
+
+  showToast('Profile deleted');
+};
+
+window.setActiveProfileId = setActiveProfileId;
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+initProfiles();
+
+/* ========================================================
+   9. CURRENT YEAR
+   ======================================================== */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
