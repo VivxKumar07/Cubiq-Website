@@ -125,3 +125,4 @@ To run or preview the website locally:
 <p align="center">
   Made with ❤️ for the Android Minecraft Community.
 </p>
+
