@@ -520,7 +520,7 @@ html, body {
   gap: 8px;
 }
 
-.hero h1 {
+.hero h1, .hero-title {
   max-width: 650px;
   font-size: clamp(32px, 4.2vw, 54px);
   font-weight: 900;
@@ -531,7 +531,13 @@ html, body {
   margin-bottom: 14px;
 }
 
-.hero h1 span {
+.hero-tagline-phrase {
+  display: block;
+  color: #ffffff;
+}
+
+.hero-brand-highlight {
+  display: block;
   color: #79d653;
 }
 
@@ -1581,9 +1587,93 @@ footer {
     height: 42px;
   }
 
+  .hero-overlay {
+    background: 
+      linear-gradient(180deg, rgba(14, 24, 16, 0.6) 0%, rgba(12, 20, 14, 0.85) 42%, rgba(10, 16, 12, 0.96) 100%);
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    text-align: center;
+    padding: 10px 0 15px;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: rgba(60, 133, 39, 0.22);
+    border: 1px solid rgba(126, 217, 87, 0.38);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #9ef075;
+    margin-bottom: 10px;
+  }
+
+  .hero h1, .hero-title {
+    font-size: clamp(24px, 6.8vw, 32px);
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: -0.6px;
+    text-align: center;
+    margin: 0 auto 10px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+  }
+
+  .hero-tagline-phrase {
+    display: block;
+    color: #ffffff !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  }
+
+  .hero-brand-highlight {
+    display: block;
+    margin-top: 2px;
+    color: #79d653 !important;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 24px rgba(121, 214, 83, 0.6), 0 2px 8px rgba(0, 0, 0, 0.95);
+  }
+
+  .hero-description {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #d4e0d3;
+    text-align: center;
+    max-width: 420px;
+    margin: 0 auto 16px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+  }
+
+  .hero-cta-cluster {
+    max-width: 380px;
+    width: 100%;
+    margin: 0 auto 14px;
+  }
+
+  .hero-note {
+    justify-content: center;
+    text-align: center;
+    font-size: 10.5px;
+  }
+
   .hero-phone {
-    height: 300px;
-    max-width: 90vw;
+    height: 250px;
+    max-width: 85vw;
+    margin: 0 auto;
   }
 
   .phone-version-tag {
@@ -1624,7 +1714,16 @@ footer {
     display: none;
   }
   .hero-phone {
-    height: 270px;
+    height: 225px;
+  }
+  .hero h1, .hero-title {
+    font-size: 22px;
+    line-height: 1.18;
+  }
+  .hero-description {
+    font-size: 12px;
+    line-height: 1.55;
+    max-width: 320px;
   }
   .hero-cta-cluster {
     max-width: 100%;
@@ -1711,9 +1810,10 @@ footer {
     <div class="hero-text">
       <div class="eyebrow">✦ YOUR NEXT ADVENTURE STARTS HERE</div>
 
-      <h1>YOUR GAME.<br>
-        YOUR WORLD.<br>
-        <span>CUBIQ.</span>
+      <h1 class="hero-title">
+        <span class="hero-tagline-phrase">YOUR GAME.</span>
+        <span class="hero-tagline-phrase">YOUR WORLD.</span>
+        <span class="hero-brand-highlight">CUBIQ.</span>
       </h1>
 
       <p class="hero-description">
