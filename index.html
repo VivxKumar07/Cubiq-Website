@@ -2186,8 +2186,15 @@ footer {
       </a>
 
       <div class="download-small" id="downloadMessage">
-        File: <span class="dynamic-apk-name">Cubiq-1.1.1-arm64-v8a.apk</span> · Target: Android 8.0+ (ARM64-v8a)<br>
-        <a href="https://github.com/VivxKumar07/Cubiq-Launcher/releases" target="_blank" rel="noopener noreferrer">View all releases on GitHub</a>
+        Primary: <span class="dynamic-apk-name">Cubiq-1.1.1-arm64-v8a.apk</span> · Target: Android 8.0+ (ARM64-v8a)<br>
+        <div style="margin-top: 8px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; font-size: 0.85rem;">
+          <a href="https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.1.1/Cubiq-1.1.1-armeabi-v7a.apk" class="alt-arch-v7a" style="color: #60A5FA; text-decoration: underline;">32-bit ARM (v7a)</a>
+          <a href="https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.1.1/Cubiq-1.1.1-x86_64.apk" class="alt-arch-x86_64" style="color: #60A5FA; text-decoration: underline;">64-bit x86</a>
+          <a href="https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.1.1/Cubiq-1.1.1-x86.apk" class="alt-arch-x86" style="color: #60A5FA; text-decoration: underline;">32-bit x86</a>
+        </div>
+        <div style="margin-top: 8px;">
+          <a href="https://github.com/VivxKumar07/Cubiq-Launcher/releases" target="_blank" rel="noopener noreferrer">View all releases on GitHub</a>
+        </div>
       </div>
     </div>
   </div>
@@ -2431,6 +2438,20 @@ async function syncWithLatestGitHubRelease() {
       if (chosenAsset) {
         downloadUrl = chosenAsset.browser_download_url;
         apkName = chosenAsset.name;
+      }
+
+      const v7aAsset = release.assets.find(a => (a.name.toLowerCase().includes('v7a') || a.name.toLowerCase().includes('armeabi')) && !a.name.toLowerCase().includes('arm64'));
+      const x86_64Asset = release.assets.find(a => a.name.toLowerCase().includes('x86_64'));
+      const x86Asset = release.assets.find(a => a.name.toLowerCase().includes('x86') && !a.name.toLowerCase().includes('x86_64'));
+
+      if (v7aAsset) {
+        document.querySelectorAll(".alt-arch-v7a").forEach(el => el.href = v7aAsset.browser_download_url);
+      }
+      if (x86_64Asset) {
+        document.querySelectorAll(".alt-arch-x86_64").forEach(el => el.href = x86_64Asset.browser_download_url);
+      }
+      if (x86Asset) {
+        document.querySelectorAll(".alt-arch-x86").forEach(el => el.href = x86Asset.browser_download_url);
       }
     } else {
       downloadUrl = `https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/${cleanVersion}/Cubiq-${numericVersion}-arm64-v8a.apk`;
