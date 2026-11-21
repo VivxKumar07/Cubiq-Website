@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://vivxkumar07.github.io/Cubiq-Website/"><img src="https://img.shields.io/badge/Live_Website-Online-3c8527?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live Website"></a>
-  <a href="https://github.com/VivxKumar07/Cubiq-Launcher/releases/tag/v1.1.0"><img src="https://img.shields.io/badge/Latest_Release-v1.1.0-52a535?style=for-the-badge&logo=android&logoColor=white" alt="Release v1.1.0"></a>
+  <a href="https://github.com/VivxKumar07/Cubiq-Launcher/releases/tag/v1.2.0-beta"><img src="https://img.shields.io/badge/Latest_Release-v1.2.0--beta-52a535?style=for-the-badge&logo=android&logoColor=white" alt="Release v1.2.0-beta"></a>
   <a href="https://github.com/VivxKumar07/Cubiq-Launcher"><img src="https://img.shields.io/badge/GitHub-Cubiq_Launcher-181e25?style=for-the-badge&logo=github&logoColor=white" alt="Launcher Repo"></a>
 </p>
 
@@ -37,14 +37,14 @@ Access the official website anytime at:
 
 ---
 
-## 📥 Direct APK Downloads (v1.1.0)
+## 📥 Direct APK Downloads (v1.2.0-beta)
 
 | Architecture | Device Type | Download Link |
 | :--- | :--- | :--- |
-| **ARM64 (arm64-v8a)** *(Recommended)* | Modern phones & tablets (Snapdragon, Dimensity, Tensor, Exynos 64-bit) | [⬇ Download APK](https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.1.0/Cubiq-1.1.0-arm64-v8a.apk) |
-| **ARMv7 (armeabi-v7a)** | Older 32-bit Android devices | [⬇ Download APK](https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.1.0/Cubiq-1.1.0-armeabi-v7a.apk) |
-| **x86_64** | 64-bit Android Emulators (BlueStacks, LDPlayer, WSA) & Chromebooks | [⬇ Download APK](https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.1.0/Cubiq-1.1.0-x86_64.apk) |
-| **x86** | 32-bit x86 Android Emulators & Legacy Intel devices | [⬇ Download APK](https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.1.0/Cubiq-1.1.0-x86.apk) |
+| **ARM64 (arm64-v8a)** *(Recommended)* | Modern phones & tablets (Snapdragon, Dimensity, Tensor, Exynos 64-bit) | [⬇ Download APK](https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.2.0-beta/Cubiq-1.2.0-beta-arm64-v8a.apk) |
+| **ARMv7 (armeabi-v7a)** | Older 32-bit Android devices | [⬇ Download APK](https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.2.0-beta/Cubiq-1.2.0-beta-armeabi-v7a.apk) |
+| **x86_64** | 64-bit Android Emulators (BlueStacks, LDPlayer, WSA) & Chromebooks | [⬇ Download APK](https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.2.0-beta/Cubiq-1.2.0-beta-x86_64.apk) |
+| **x86** | 32-bit x86 Android Emulators & Legacy Intel devices | [⬇ Download APK](https://github.com/VivxKumar07/Cubiq-Launcher/releases/download/v1.2.0-beta/Cubiq-1.2.0-beta-x86.apk) |
 
 ---
 
